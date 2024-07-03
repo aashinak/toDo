@@ -35,33 +35,40 @@ const loginUser = asyncHandler(async (req, res) => {
     if (!email && !username) {
         return res.sendError(400, "Username or email required");
     }
-    const user = await User.findOne({ $or: [{username}, {email}] });
+    const user = await User.findOne({ $or: [{ username }, { email }] });
     if (!user) return res.sendError(400, "Invalid email or username");
     const isPassword = await user.isPasswordCorrect(password);
     if (!isPassword) return res.sendError(400, "Incorrect password");
-    const refreshToken = await user.generateRefreshToken()
-    const accessToken = await user.generateAccessToken()
-    user.refreshToken = refreshToken
-    await user.save({validateBeforeSave: false})
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+    const refreshToken = await user.generateRefreshToken();
+    const accessToken = await user.generateAccessToken();
+    user.refreshToken = refreshToken;
+    await user.save({ validateBeforeSave: false });
+    const loggedInUser = await User.findById(user._id).select(
+        "-password -refreshToken"
+    );
     const options = {
         httpOnly: true,
-        secure: true
-    }
-    return res.cookie("refreshToken",refreshToken,options).cookie("accessToken", accessToken, options).sendSuccess(200, loggedInUser, "User loggedIn successfully")
+        secure: true,
+    };
+    return res
+        .cookie("refreshToken", refreshToken, options)
+        .cookie("accessToken", accessToken, options)
+        .sendSuccess(200, loggedInUser, "User loggedIn successfully");
 });
 
-const logoutUser = asyncHandler(async(req,res) => {
+const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(req.user?._id, {
         $unset: {
-            refreshToken: -1
-        }
-    })
+            refreshToken: -1,
+        },
+    });
     const options = {
         httpOnly: true,
-        secure: true
-    }
-    res.clearCookie("refreshToken", options).clearCookie("accessToken", options).sendSuccess(200,{},"User logged out")
-})
+        secure: true,
+    };
+    res.clearCookie("refreshToken", options)
+        .clearCookie("accessToken", options)
+        .sendSuccess(200, {}, "User logged out");
+});
 
 export { registerUser, loginUser, logoutUser };
