@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import { serverErrorHandler } from "./middlewares/serverErrorHandler.js";
 import todoRoute from "./routes/todo.routes.js";
 
+
 const app = express();
 
 app.use(express.json());

@@ -16,11 +16,7 @@ const todoSchema = new Schema(
         },
         createdBy: {
             type: Schema.Types.ObjectId,
-            ref: "Users"
-        },
-        category: {
-            type: String,
-            required: true
+            ref: "User"
         }
     }, {timestamps: true}
 )
