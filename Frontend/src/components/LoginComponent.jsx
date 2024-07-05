@@ -1,24 +1,30 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from 'axios'
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function LoginComponent() {
   const { register, handleSubmit } = useForm();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const login = async (data) => {
-    const response = await axios.post("http://localhost:4000/users/logout",data)
+    const response = await axios.post(
+      "http://localhost:4000/users/login",
+      data,
+      { withCredentials: true }
+    );
+    Cookies.set("refreshToken", response.data.refreshToken);
+    Cookies.set("accessToken", response.data.accessToken);
     console.log(response.data);
-    navigate("/")
+    navigate("/");
   };
   return (
     <div className="w-full min-h-screen bg-[#151515] flex justify-center items-center flex-col ">
-      <form 
+      <form
         onSubmit={handleSubmit(login)}
         className="rounded-lg w-[70%] sm:w-[60%] md:w-[50%] lg:w-[35%] xl:w-[30%] text-white border border-[rgba(255,255,255,0.45)] p-6 gap-4  flex flex-col"
       >
         <h1 className="text-center text-2xl text-white mb-4">Login</h1>
         <input
-          
           placeholder="Email"
           className="bg-transparent border border-[rgba(255,255,255,0.25)] p-4 rounded-lg"
           type="email"
@@ -51,4 +57,4 @@ function LoginComponent() {
   );
 }
 
-export default LoginComponent
+export default LoginComponent;
