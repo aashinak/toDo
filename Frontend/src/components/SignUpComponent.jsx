@@ -1,24 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from 'axios'
+import axios from "axios";
 function SignUpComponent() {
   const { register, handleSubmit } = useForm();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const signup = async (data) => {
-    const response = await axios.post("http://localhost:4000/users/signup",data)
+    const response = await axios.post(
+      "http://localhost:4000/users/signup",
+      data
+    );
     console.log(response.data);
-    navigate("/login")
+    navigate("/login");
   };
 
   return (
     <div className="w-full min-h-screen bg-[#151515] flex justify-center items-center flex-col ">
-      <form 
+      <form
         onSubmit={handleSubmit(signup)}
-        className="rounded-lg w-[70%] sm:w-[60%] md:w-[50%] lg:w-[35%] xl:w-[30%] text-white border border-[rgba(255,255,255,0.45)] p-6 gap-4  flex flex-col"
+        className="rounded-lg w-[90%]  sm:w-[60%] md:w-[50%] lg:w-[35%] xl:w-[30%] text-white border border-[rgba(255,255,255,0.45)] p-6 gap-4  flex flex-col"
       >
         <h1 className="text-center text-2xl text-white mb-4">Signup</h1>
         <input
-          
           placeholder="Username"
           className="bg-transparent border border-[rgba(255,255,255,0.25)] p-4 rounded-lg"
           type="text"
@@ -27,7 +29,6 @@ function SignUpComponent() {
           {...register("username", { required: true })}
         />
         <input
-          
           placeholder="Email"
           className="bg-transparent border border-[rgba(255,255,255,0.25)] p-4 rounded-lg"
           type="email"
