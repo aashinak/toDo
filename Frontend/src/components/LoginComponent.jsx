@@ -4,14 +4,22 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import {login as authLogin} from '../store/authSlice'
+import { useState } from "react";
+import FullScreenLoading from "./FullScreenLoading";
+import AlertComponent from "./AlertComponent";
 function LoginComponent() {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState({})
+  const [isError, setIsError] = useState(false)
   const login = async (data) => {
     try {
+      setLoading(true)
+      const apiUri = import.meta.env.VITE_API_URI;
       const response = await axios.post(
-        "http://localhost:4000/users/login",
+        `${apiUri}/users/login`,
         data,
         { withCredentials: true }
       );
@@ -22,11 +30,15 @@ function LoginComponent() {
       Cookies.set("refreshToken", response.data.refreshToken);
       Cookies.set("accessToken", response.data.accessToken);
       navigate("/");
+      setLoading(false)
     } catch (error) {
-      console.log();
+      setLoading(false)
+      setError(error.response?.data)
+      setIsError(true)
     }
   };
   return (
+    loading ? <FullScreenLoading/> :
     <div className="w-full min-h-screen bg-[#151515] flex justify-center items-center flex-col ">
       <form
         onSubmit={handleSubmit(login)}
@@ -62,6 +74,8 @@ function LoginComponent() {
           </u>
         </p>
       </form>
+      {isError ? <AlertComponent error={error}/> : null }
+      
     </div>
   );
 }

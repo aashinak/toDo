@@ -71,4 +71,8 @@ const logoutUser = asyncHandler(async (req, res) => {
         .sendSuccess(200, {}, "User logged out");
 });
 
-export { registerUser, loginUser, logoutUser };
+const currentUser = asyncHandler(async (req, res) => {
+    return res.sendSuccess(200, req.user, "fetched current user");
+});
+
+export { registerUser, loginUser, logoutUser, currentUser };

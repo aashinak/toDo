@@ -94,4 +94,38 @@ const updateTodo = asyncHandler(async (req, res) => {
     return res.sendSuccess(200, updatedTodo, "Todo updated successfully");
 });
 
-export { addTodo, deleteTodo, updateTodo, createCategory, deleteCategory };
+const getAllTodo = asyncHandler(async(req,res) => {
+    const allTodos = await Category.aggregate(
+        [
+            {
+              $match: {
+                createdBy: req.user?._id
+              }
+            },
+            {
+              $lookup: {
+                from: "todos",
+                localField: "todos._id",
+                foreignField: "_id",
+                as: "todosDetails"
+              }
+            },
+            {
+              $project: {
+                _id: 1,
+                categoryName: 1,
+                createdBy: 1,
+                createdAt: 1,
+                updatedAt: 1,
+                todosDetails: 1
+              }
+            }
+          ]
+    )
+    if(!allTodos) return res.sendError(400, "Something went wrong")
+    return res.sendSuccess(200, allTodos, "All todos with categories fetched")
+})
+
+
+
+export { addTodo, deleteTodo, updateTodo, createCategory, deleteCategory,getAllTodo };

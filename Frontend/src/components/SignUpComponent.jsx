@@ -1,19 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useState } from "react";
+import FullScreenLoading from "./FullScreenLoading";
 function SignUpComponent() {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const signup = async (data) => {
+    setLoading(true)
     const response = await axios.post(
       "http://localhost:4000/users/signup",
       data
     );
     console.log(response.data);
     navigate("/login");
+    setLoading(false)
   };
 
   return (
+    loading? <FullScreenLoading/> :
     <div className="w-full min-h-screen bg-[#151515] flex justify-center items-center flex-col ">
       <form
         onSubmit={handleSubmit(signup)}
