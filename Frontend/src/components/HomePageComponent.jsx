@@ -51,7 +51,7 @@ function HomePageComponent() {
   const handleCreateCategory = async () => {
     if (category !== "") {
       try {
-        const response = await axios.post(
+        await axios.post(
           `${apiUri}/todo/createCategory`,
           { categoryName: category },
           { withCredentials: true }
@@ -76,7 +76,7 @@ function HomePageComponent() {
   return fullScreenLoading ? (
     <FullScreenLoading />
   ) : (
-    <div className="bg-[#151515] w-full min-h-screen flex justify-center">
+    <div className="bg-[#151515] w-full min-h-screen  flex justify-center">
       <div className="absolute top-9 right-9 flex gap-5 items-center">
         <h1 className="text-white font-semibold text-lg">
           {username?.charAt(0).toUpperCase() + username?.slice(1)}
@@ -88,7 +88,7 @@ function HomePageComponent() {
         />
       </div>
 
-      <div className="md:w-[45%] h-min md:mt-20 border border-[rgba(255,255,255,0.45)] p-6 rounded-lg flex flex-col gap-4 ">
+      <div className="md:w-[45%] h-min md:mt-20 w-full border border-[rgba(255,255,255,0.45)] p-6 rounded-lg flex flex-col gap-4 ">
         <div className="text-white flex">
           <input
             onChange={(e) => setCategory(e.target.value)}

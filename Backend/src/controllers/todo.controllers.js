@@ -23,11 +23,13 @@ const createCategory = asyncHandler(async (req, res) => {
 const deleteCategory = asyncHandler(async (req, res) => {
     const { categoryId } = req.body;
     const category = await Category.findOneAndDelete({ _id: categoryId });
-    if(!category) return res.sendError(400, "Invalid category id")
-    
-    await Todo.deleteMany({ _id: { $in: category.todos.map(todo => todo._id) } })
-    
-    return res.sendSuccess(200, "Category deleted successfully")
+    if (!category) return res.sendError(400, "Invalid category id");
+
+    await Todo.deleteMany({
+        _id: { $in: category.todos.map((todo) => todo._id) },
+    });
+
+    return res.sendSuccess(200, "Category deleted successfully");
 });
 
 const addTodo = asyncHandler(async (req, res) => {
@@ -80,52 +82,69 @@ const deleteTodo = asyncHandler(async (req, res) => {
 });
 
 const updateTodo = asyncHandler(async (req, res) => {
-    const { todoId, todoTitle, todoContent, isActive } = req.body;
-    if (!todoId || !todoTitle || !todoContent)
+    // const { todoId, todoTitle, todoContent, isActive } = req.body;
+    const { todoId, isActive } = req.body;
+    if (!todoId || isActive === "" || isActive === undefined)
         return res.sendError(400, "All fields required");
     if (typeof isActive !== "boolean")
         return res.sendError(400, "isActive field should be of Boolean Type");
     const updatedTodo = await Todo.findByIdAndUpdate(
         todoId,
-        { todoTitle, todoContent, isActive },
+        { isActive },
         { new: true }
     );
     if (!updatedTodo) return res.sendError(400, "invalid todoId");
     return res.sendSuccess(200, updatedTodo, "Todo updated successfully");
 });
 
-const getAllTodo = asyncHandler(async(req,res) => {
-    const allTodos = await Category.aggregate(
-        [
-            {
-              $match: {
-                createdBy: req.user?._id
-              }
+const getAllTodo = asyncHandler(async (req, res) => {
+    const allTodos = await Category.aggregate([
+        {
+            $match: {
+                createdBy: req.user?._id,
             },
-            {
-              $lookup: {
+        },
+        {
+            $lookup: {
                 from: "todos",
                 localField: "todos._id",
                 foreignField: "_id",
-                as: "todosDetails"
-              }
+                as: "todosDetails",
             },
-            {
-              $project: {
+        },
+        {
+            $project: {
                 _id: 1,
                 categoryName: 1,
                 createdBy: 1,
                 createdAt: 1,
                 updatedAt: 1,
-                todosDetails: 1
-              }
-            }
-          ]
-    )
-    if(!allTodos) return res.sendError(400, "Something went wrong")
-    return res.sendSuccess(200, allTodos, "All todos with categories fetched")
-})
+                todosDetails: 1,
+            },
+        },
+    ]);
+    if (!allTodos) return res.sendError(400, "Something went wrong");
+    return res.sendSuccess(200, allTodos, "All todos with categories fetched");
+});
 
+const updateCategoryName = asyncHandler(async (req, res) => {
+    const { categoryName, categoryId } = req.body;
+    if (!categoryName || categoryName === undefined) {
+        return res.sendError(400, "Category name cannot be empty");
+    }
+    const response = await Category.findByIdAndUpdate(categoryId, {
+        categoryName,
+    });
+    if (!response) return res.sendError(400, "Invalid categoryId");
+    return res.sendSuccess(200, {}, "Category name updated successfully");
+});
 
-
-export { addTodo, deleteTodo, updateTodo, createCategory, deleteCategory,getAllTodo };
+export {
+    addTodo,
+    deleteTodo,
+    updateTodo,
+    createCategory,
+    deleteCategory,
+    getAllTodo,
+    updateCategoryName,
+};

@@ -21,7 +21,7 @@ function App() {
       });
   });
   return (
-    <div>
+    <div className="overflow-auto scrollbar-hidden relative h-screen">
       <Outlet />
     </div>
   );

@@ -5,6 +5,7 @@ import {
     deleteCategory,
     deleteTodo,
     getAllTodo,
+    updateCategoryName,
     updateTodo,
 } from "../controllers/todo.controllers.js";
 import { verifyJwt } from "../middlewares/auth.middleware.js";
@@ -18,6 +19,8 @@ router.route("/deleteTodo").post(deleteTodo);
 router.route("/updateTodo").post(updateTodo);
 router.route("/createCategory").post(createCategory);
 router.route("/deleteCategory").post(deleteCategory);
-router.route("/getAllTodo").get(getAllTodo)
+router.route("/updateCategoryName").post(updateCategoryName);
+
+router.route("/getAllTodo").get(getAllTodo);
 
 export default router;
