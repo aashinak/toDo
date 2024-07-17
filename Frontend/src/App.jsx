@@ -7,10 +7,11 @@ import { login as authLogin } from "./store/authSlice";
 
 function App() {
   const dispatch = useDispatch()
+  const apiUri = import.meta.env.VITE_API_URI;
   
   useEffect(() => {
     axios
-      .get("http://localhost:4000/users/getCurrentUser", {
+      .get(`${apiUri}/users/getCurrentUser`, {
         withCredentials: true,
       })
       .then((res) => {
