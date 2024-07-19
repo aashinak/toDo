@@ -96,7 +96,7 @@ function Categories({ category, setTodoData }) {
           withCredentials: true,
         }
       );
-      console.log(response);
+      
       const res = await axios.get(`${apiUri}/todo/getAllTodo`, {
         withCredentials: true,
       });
@@ -114,7 +114,7 @@ function Categories({ category, setTodoData }) {
           withCredentials: true,
         }
       );
-      console.log(response);
+      
       const res = await axios.get(`${apiUri}/todo/getAllTodo`, {
         withCredentials: true,
       });
