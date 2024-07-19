@@ -84,7 +84,7 @@ function HomePageComponent() {
         <img
           onClick={handleLogout}
           className="cursor-pointer w-6 h-6"
-          src="./src/assets/logout.png"
+          src="/assets/logout.png"
         />
       </div>
 
