@@ -49,8 +49,8 @@ const loginUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: 'Lax',
-        domain: process.env.FRONTEND_DOMAIN
+        sameSite: 'None',
+        // domain: process.env.FRONTEND_DOMAIN
     };
     return res
         .cookie("refreshToken", refreshToken, options)
@@ -67,6 +67,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
+        sameSite: 'None',
+        // domain: process.env.FRONTEND_DOMAIN
     };
     res.clearCookie("refreshToken", options)
         .clearCookie("accessToken", options)
