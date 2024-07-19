@@ -49,7 +49,8 @@ const loginUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: 'Strict'
+        sameSite: 'None',
+        domain: process.env.BACKEND_DOMAIN
     };
     return res
         .cookie("refreshToken", refreshToken, options)
