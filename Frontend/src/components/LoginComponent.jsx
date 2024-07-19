@@ -27,8 +27,8 @@ function LoginComponent() {
       if(userData){
         dispatch(authLogin({userData}))
       }
-      Cookies.set("refreshToken", response.data.refreshToken);
-      Cookies.set("accessToken", response.data.accessToken);
+      // Cookies.set("refreshToken", response.data.refreshToken);
+      // Cookies.set("accessToken", response.data.accessToken);
       navigate("/");
       setLoading(false)
     } catch (error) {
