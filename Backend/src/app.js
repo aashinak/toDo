@@ -11,7 +11,7 @@ app.use(
     cors({
         credentials: true,
         origin: process.env.CORS_ORIGIN,
-        sameSite: "Strict",
+        domain: process.env.CORS_ORIGIN
     })
 );
 app.use(express.json());
