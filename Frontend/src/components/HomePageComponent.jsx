@@ -77,7 +77,7 @@ function HomePageComponent() {
     <FullScreenLoading />
   ) : (
     <div className="bg-[#151515] w-full min-h-screen  flex justify-center">
-      <div className="absolute top-9 right-9 flex gap-5 items-center">
+      <div className="absolute top-3 right-4 md:top-9 md:right-9 flex gap-5 items-center">
         <h1 className="text-white font-semibold text-lg">
           {username?.charAt(0).toUpperCase() + username?.slice(1)}
         </h1>
@@ -88,7 +88,7 @@ function HomePageComponent() {
         />
       </div>
 
-      <div className="md:w-[45%] h-min md:mt-20 w-full border border-[rgba(255,255,255,0.45)] p-6 rounded-lg flex flex-col gap-4 ">
+      <div className="md:w-[45%] h-min md:mt-20 w-full md:border md:border-[rgba(255,255,255,0.45)] md:p-6 px-2 pt-14 pb-5 rounded-lg flex flex-col gap-4 ">
         <div className="text-white flex">
           <input
             onChange={(e) => setCategory(e.target.value)}

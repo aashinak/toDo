@@ -126,7 +126,7 @@ function Categories({ category, setTodoData }) {
 
   return (
     <div className="w-full flex flex-col gap-1 select-none">
-      <div className="w-full p-8 rounded-lg border border-[rgba(255,255,255,0.10)] flex items-center justify-between">
+      <div className="w-full md:p-8 py-7 px-5  rounded-lg border border-[rgba(255,255,255,0.10)] flex items-center justify-between">
         <div>
           {!edit ? (
             <h1 className="text-white">{categoryName}</h1>
@@ -134,7 +134,7 @@ function Categories({ category, setTodoData }) {
             <input
               autoFocus
               onChange={(e) => setCategoryName(e.target.value)}
-              className="p-4 bg-transparent border border-[rgba(255,255,255,0.10)] rounded-lg text-white "
+              className="md:p-4 p-1 md:w-full w-32 bg-transparent border border-[rgba(255,255,255,0.10)] rounded-lg text-white "
               value={categoryName}
               type="text"
             />
@@ -234,7 +234,7 @@ function Categories({ category, setTodoData }) {
       </div>
 
       {viewAll ? (
-        <div className="w-full p-8 rounded-lg border border-[rgba(255,255,255,0.10)] flex flex-col gap-2">
+        <div className="w-full md:p-8 p-1 rounded-lg border border-[rgba(255,255,255,0.10)] flex flex-col gap-2">
           <div
             onClick={() => setAddTodo(!addTodo)}
             className="w-full hover:bg-[#202020] p-1 text-white flex flex-col justify-center rounded-lg border border-[rgba(255,255,255,0.10)] items-center"
