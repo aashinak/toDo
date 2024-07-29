@@ -14,7 +14,6 @@ function SignUpComponent() {
      `${apiUri}/users/signup`,
       data
     );
-    console.log(response.data);
     navigate("/login");
     setLoading(false)
   };
