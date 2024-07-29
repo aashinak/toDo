@@ -9,8 +9,9 @@ function SignUpComponent() {
   const [loading, setLoading] = useState(false)
   const signup = async (data) => {
     setLoading(true)
+    const apiUri = import.meta.env.VITE_API_URI;
     const response = await axios.post(
-      "http://localhost:4000/users/signup",
+     `${apiUri}/users/signup`,
       data
     );
     console.log(response.data);
